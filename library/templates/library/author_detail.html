@@ -1,0 +1,39 @@
+{% extends "library/base.html" %} 
+
+{% load static %} 
+
+{% block title %} 
+{{ author }} 
+{% endblock %} 
+
+{% block content %}
+
+<h1 class="text-center my-3 text-success">{{ author }}</h1>
+
+<div class="row justify-content-around mt-4">
+  <div class="col-3">
+    {% for genre in author.genres %}
+    <a href="{{ genre.url }}" class="text-secondary text-decoration-none"
+      >{{ genre }}</a
+    >
+    {% endfor %}
+    <img src="{{ author.portrait }}" class="img-fluid" />
+    <p>Born: {{ author.birth_date }}</p>
+  </div>
+  <div class="col-4">
+    {% for book in author.books.all %}
+    <div class="row my-2">
+      <div class="col-2">
+        <img src="{{ book.cover }}" class="img-fluid" />
+      </div>
+      <div class="col-8">
+        <a href="{{ book.url }}" class="text-decoration-none"
+          ><h4 class="text-primary">{{ book }}</h4></a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "library/base.html" %}
+{% load static %}
+
+{% block title %}
+  Powercode Library
+{% endblock title %}
+
+{% block content %}
+        <h1 class="text-center">Powercode Library</h1>
+      <div class="row justify-content-around mt-4">
+        <div class="col-3 text-center border border-primary p-5">
+          <a href="{% url 'lib:book-list' %}" class="text-decoration-none">
+            <img
+              src="{% static 'library/img/book.png' %}"
+              class="w-50 h-50 m-3"
+            />
+            <h3>Books: {{ books_number }}</h3></a
+          >
+        </div>
+        <div class="col-3 text-center border border-primary p-5">
+          <a href="{% url 'lib:author-list' %}" class="text-decoration-none">
+            <img
+              src="{% static 'library/img/writer.png' %}"
+              class="w-50 h-50 m-3"
+            />
+            <h3>Authors: {{ authors_number }}</h3></a
+          >
+        </div>
+        <div class="col-3 text-center border border-primary p-5">
+          <a href="{% url 'lib:genre-list' %}" class="text-decoration-none">
+            <img
+              src="{% static 'library/img/genre.png' %}"
+              class="w-50 h-50 m-3"
+            />
+            <h3>Genres: {{ genres_number }}</h3></a
+          >
+        </div>
+      </div>
+{% endblock %}
+  </body>
+</html>

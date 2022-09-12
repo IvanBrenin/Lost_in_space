@@ -1,0 +1,43 @@
+{% extends "library/base.html" %} {% load static %} {% block title %} {{ book }}
+{% endblock %} {% block content %}
+
+<h1 class="text-center my-3 text-primary">{{ book }}</h1>
+
+<div class="row justify-content-around mt-4">
+  <div class="col-3">
+    {% for genre in book.genres.all %}
+    <a href="{{ genre.url }}" class="text-secondary text-decoration-none"
+      >{{ genre }}</a
+    >
+    {% endfor %}
+    <img src="{{ book.cover }}" class="img-fluid" />
+  </div>
+  <div class="col-4">
+    <img src="{{ book.author.portrait }}" width="75" />
+    <a href="{{ book.author.url }}" class="text-decoration-none"
+      ><h3 class="text-success">{{ book.author }}</h3></a
+    >
+    <h3>Comments:</h3>
+    {% for c in book.comments.all %}
+
+    <p><small>{{ c.text }} <br> <i>(author: {{ c.author }}, {{ c.published|date:"Y-M-d" }} {{ c.published|time:"H:i" }})</i></small></p>
+    {% empty %}
+    <p>no comments yet, leave first</p>
+      
+    {% endfor %}
+    <form action="{% url 'lib:add-comment' book.id %}" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <input type="text" class="form-control" placeholder="Your text" name="text">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Author</label>
+        <input type="text" class="form-control" placeholder="Your name" name="author">
+      </div>
+      <input type="submit" value="Add Comment" class="btn btn-primary">
+    </form>
+  </div>
+</div>
+
+{% endblock %}

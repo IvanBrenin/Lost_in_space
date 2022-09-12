@@ -1,0 +1,17 @@
+{% extends "library/base.html" %} {% load static %} {% block title %} All
+Authors {% endblock %} {% block content %}
+
+<h1 class="text-center my-3">All Authors</h1>
+
+<div class="row justify-content-around mt-4">
+  {% for author in authors %}
+  <div class="col-3 text-center bg-light m-3 p-3">
+    <img src="{{ author.portrait }}" class="w-50 h-75" />
+    <a href="{{ author.url }}" class="text-decoration-none"
+      ><h5 class="text-success">{{ author }}</h5></a
+    >
+    <p>books: {{ author.books.all|length }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

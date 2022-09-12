@@ -1,0 +1,19 @@
+{% extends "library/base.html" %} {% load static %} {% block title %} All Books
+{% endblock %} {% block content %}
+
+<h1 class="text-center my-3">All Books</h1>
+
+<div class="row justify-content-around mt-4">
+  {% for book in books %}
+  <div class="col-3 text-center bg-light m-3 p-3">
+    <img src="{{ book.cover }}" class="w-50 h-75" />
+    <a href="{{ book.url }}" class="text-decoration-none"
+      ><h4 class="text-primary">{{ book }}</h4></a
+    >
+    <a href="{{ book.author.url }}" class="text-decoration-none"
+      ><h5 class="text-success">{{ book.author }}</h5></a
+    >
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
