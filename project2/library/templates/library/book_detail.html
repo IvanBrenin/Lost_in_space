@@ -10,7 +10,17 @@
       >{{ genre }}</a
     >
     {% endfor %}
-    <img src="{{ book.cover }}" class="img-fluid" />
+    <img src="{{ book.cover }}" class="img-fluid mb-5" />
+
+    <h3>Instances:</h3>
+    {% for bi in book.instances.all %} {% if bi.status == 'a' %} 
+    <p>instance id:{{ bi.id }} - {{ bi.get_status_display }}
+    <button class="btn btn-success">order</button>
+    {% endif %} 
+    {% if bi.status == 'o' %} 
+    <p>instance id:{{ bi.id }} - {{ bi.get_status_display }} (due back: {{ bi.due_back }})
+    {% endif %}
+    {% endfor %}</p> 
   </div>
   <div class="col-4">
     <img src="{{ book.author.portrait }}" width="75" />
@@ -20,22 +30,40 @@
     <h3>Comments:</h3>
     {% for c in book.comments.all %}
 
-    <p><small>{{ c.text }} <br> <i>(author: {{ c.author }}, {{ c.published|date:"Y-M-d" }} {{ c.published|time:"H:i" }})</i></small></p>
+    <p>
+      <small
+        >{{ c.text }} <br />
+        <i
+          >(author: {{ c.author }}, {{ c.published|date:"Y-M-d" }} {{
+          c.published|time:"H:i" }})</i
+        ></small
+      >
+    </p>
     {% empty %}
     <p>no comments yet, leave first</p>
-      
+
     {% endfor %}
     <form action="{% url 'lib:add-comment' book.id %}" method="post">
       {% csrf_token %}
       <div class="mb-3">
         <label class="form-label">Comment</label>
-        <input type="text" class="form-control" placeholder="Your text" name="text">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Your text"
+          name="text"
+        />
       </div>
       <div class="mb-3">
         <label class="form-label">Author</label>
-        <input type="text" class="form-control" placeholder="Your name" name="author">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Your name"
+          name="author"
+        />
       </div>
-      <input type="submit" value="Add Comment" class="btn btn-primary">
+      <input type="submit" value="Add Comment" class="btn btn-primary" />
     </form>
   </div>
 </div>

@@ -1,12 +1,5 @@
-{% extends "library/base.html" %} 
-
-{% load static %} 
-
-{% block title %} 
-{{ author }} 
-{% endblock %} 
-
-{% block content %}
+{% extends "library/base.html" %} {% load static %} {% block title %} {{ author
+}} {% endblock %} {% block content %}
 
 <h1 class="text-center my-3 text-success">{{ author }}</h1>
 
@@ -32,6 +25,20 @@
         >
       </div>
     </div>
+    {% endfor %}
+
+    <h3>Comments:</h3>
+    {% for comment in author.comments.all %}
+    <p>
+      <i>
+        {{ comment.author }} about
+        <a href="{{ comment.book.url }}" class="text-decoration-none"
+          >{{ comment.book }}</a
+        ></i
+      ><br />{{ comment.text }} ({{ comment.published|timesince }})
+    </p>
+    {% empty %}
+    <p>no comments yet</p>
     {% endfor %}
   </div>
 </div>

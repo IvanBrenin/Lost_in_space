@@ -28,12 +28,16 @@ class Author(models.Model):
         return reverse('lib:author-detail', kwargs={'pk': self.id})
 
     def genres(self):
-        genre_list = []
-        for book in self.books.all():
-            for genre in book.genres.all():
-                if genre not in genre_list:
-                    genre_list.append(genre)
+        # genre_list = []
+        # for book in self.books.all():
+        #     for genre in book.genres.all():
+        #         if genre not in genre_list:
+        #             genre_list.append(genre)
+        genre_list = Genre.objects.filter(books__author__exact=self).distinct()
         return genre_list
+
+    def comments(self):
+        return Comment.objects.filter(book__author__exact=self)
 
 
 class Book(models.Model):
@@ -42,7 +46,8 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, blank=True,
                                related_name='books')
     genres = models.ManyToManyField(Genre, related_name='books', blank=True)
-    #comments
+    # comments
+    # instances
 
     def __str__(self):
         return f'"{self.title}"'
@@ -59,3 +64,21 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-published']
+
+
+class BookInstance(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='instances')
+    LOAN_STATUSES = (
+        ('a', 'available'),
+        ('o', 'on loan'),
+        ('m', 'maintenance'),
+        ('r', 'reserved'),
+    )
+    status = models.CharField(max_length=1, choices=LOAN_STATUSES,
+                              default='a')
+
+    due_back = models.DateField(null=True, blank=True)
+
+
+    # def __str__(self):
+    #     return f'"{self.title}"'

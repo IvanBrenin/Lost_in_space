@@ -22,3 +22,7 @@ class BookAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['text', 'author', 'book']
     list_filter = ['author', 'book', 'published']
+
+@admin.register(BookInstance)
+class BookInstanceAdmin(admin.ModelAdmin):
+    pass
